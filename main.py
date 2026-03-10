@@ -26,8 +26,11 @@ for i in range(height - 1 - KERNEL_SIZE):
         
         
         result.append(
-            map(int, resulting_pixel)
+            tuple(
+                map(int, resulting_pixel)
+            )
         )
+
     if (i % 100 == 0):
         print(i, height)
 print(result)
