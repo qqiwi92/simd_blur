@@ -37,8 +37,8 @@ for i in range(height - 1 - KERNEL_SIZE):
                     int(b_sum / divisor)
                 ))
 
-    if (i % 10 == 0):
-        print(i, height)
+    # if (i % 10 == 0):
+    #     print(i, height)
 
 result_img.putdata(result)
 
