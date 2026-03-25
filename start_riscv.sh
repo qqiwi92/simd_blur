@@ -9,6 +9,8 @@ cleanup() {
     echo "done"
 }
 
+trap cleanup EXIT INT TERM
+
 sudo mount --bind /dev ~/riscv_vm/dev
 sudo mount --bind /sys ~/riscv_vm/sys
 sudo mount --bind /proc ~/riscv_vm/proc
@@ -16,5 +18,3 @@ sudo mount --bind /dev/pts ~/riscv_vm/dev/pts
 
 echo "entering chroot"
 sudo chroot ~/riscv_vm /bin/bash
-# если ctrl c sudo umount -l ~/riscv_vm/*
-cleanup
