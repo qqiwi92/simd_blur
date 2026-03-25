@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-    echo "Использование: ./bench.sh имя_файла.py"
+    echo "use ./bench.sh имя_файла.py"
     exit 1
 fi
 
@@ -22,22 +22,22 @@ else
     CMD="./$SCRIPT_NAME"
 fi
 
-echo "--- Тестирование: $SCRIPT_NAME ---"
+echo "now: $SCRIPT_NAME ---"
 
 for i in {1..10}
 do
-    echo -n "Запуск #$i... "
+    echo -n "run #$i... "
 
     TIME_RESULT=$(/usr/bin/time -f "%e" $CMD 2>&1 >/dev/null)
 
     if [[ $? -ne 0 ]]; then
-        echo "ОШИБКА выполнения:"
+        echo "error:"
         echo "$TIME_RESULT"
         exit 1
     fi
 
     echo "$SCRIPT_NAME,$i,$TIME_RESULT" >> "$CSV_FILE"
-    echo "Ок ($TIME_RESULT сек)"
+    echo "ok ($TIME_RESULT сек)"
 done
 
-echo "Данные добавлены в $CSV_FILE"
+echo "update $CSV_FILE"
