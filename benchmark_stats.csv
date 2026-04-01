@@ -1,0 +1,13 @@
+script,run,elapsed_time,cpu_time,page_faults
+no_optimization.py,1,1.5732,1.5723,1186
+no_optimization.py,2,1.6373,1.6352,1186
+no_optimization.py,3,1.6885,1.6820,1186
+flatten_optimization.py,1,1.7673,1.7644,1060
+flatten_optimization.py,2,1.7788,1.7748,1060
+flatten_optimization.py,3,1.7765,1.7745,1060
+numpy_optimization.py,1,0.0344,0.0332,1211
+numpy_optimization.py,2,0.0339,0.0318,1211
+numpy_optimization.py,3,0.0345,0.0334,1211
+numpy_no_cycles_optimization.py,1,0.3076,0.1343,767
+numpy_no_cycles_optimization.py,2,0.1219,0.1188,762
+numpy_no_cycles_optimization.py,3,0.1228,0.1227,762
