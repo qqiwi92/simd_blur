@@ -1,43 +1,25 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo "use ./bench.sh имя_файла.py"
-    exit 1
-fi
-
-SCRIPT_NAME=$1
+scripts=("no_optimization.py" "flatten_optimization.py" "numpy_optimization.py" "numpy_no_cycles_optimization.py")
 CSV_FILE="benchmark_stats.csv"
 
-if [ ! -f "$CSV_FILE" ]; then
-    echo "filename,run,time_seconds" > "$CSV_FILE"
-fi
+echo "script,run,elapsed_time,cpu_time,page_faults" > "$CSV_FILE"
 
-if [[ "$SCRIPT_NAME" == *.py ]]; then
-    CMD="python3 $SCRIPT_NAME"
-elif [[ "$SCRIPT_NAME" == *.cpp ]]; then
-    g++ -O3 "$SCRIPT_NAME" -o my_prog
-    CMD="./my_prog"
-else
-    chmod +x "$SCRIPT_NAME"
-    CMD="./$SCRIPT_NAME"
-fi
+for script in "${scripts[@]}"; do
+    if [ -f "$script" ]; then
+        echo "Testing $script..."
+        for i in {1..3}; do
+            output=$(python3 "$script")
+            
+            time_res=$(echo "$output" | grep "Чистое время:" | awk '{print $3}')
+            cpu_res=$(echo "$output" | grep "CPU Time:" | awk '{print $3}')
+            pf_res=$(echo "$output" | grep "Page Faults:" | awk '{print $3}')
 
-echo "now: $SCRIPT_NAME ---"
-
-for i in {1..10}
-do
-    echo -n "run #$i... "
-
-    TIME_RESULT=$(/usr/bin/time -f "%e" $CMD 2>&1 >/dev/null)
-
-    if [[ $? -ne 0 ]]; then
-        echo "error:"
-        echo "$TIME_RESULT"
-        exit 1
+            echo "$script,$i,$time_res,$cpu_res,$pf_res" >> "$CSV_FILE"
+            echo "  Run $i: $time_res sec"
+        done
+    else
+        echo "File $script not found, skipping."
     fi
-
-    echo "$SCRIPT_NAME,$i,$TIME_RESULT" >> "$CSV_FILE"
-    echo "ok ($TIME_RESULT сек)"
 done
 
-echo "update $CSV_FILE"
